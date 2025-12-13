@@ -13,7 +13,7 @@ def read_input(filename):
 
 
 def distance(b1, b2):
-    return reduce(operator.add, map(lambda x, y: pow(abs(y - x), 2), b1, b2), 1)
+    return reduce(operator.add, map(lambda x, y: pow(abs(y - x), 2), b1, b2))
 
 
 def compute_distances(input):
@@ -67,10 +67,25 @@ def star1(input, distances, num_conns):
     return reduce(operator.mul, (len(x) for x in l[:3]), 1)
 
 
+def star2(input, distances):
+    connections = []
+    i = 0
+    while i < len(distances):
+        add_connection(distances[i], connections)
+        if len(connections) == 1 and len(connections[0]) == len(input):
+            break
+        i += 1
+
+    x1 = input[distances[i][0]][0]
+    x2 = input[distances[i][1]][0]
+    return x1 * x2
+
+
 def main():
     input = read_input("input")
     distances = compute_distances(input)
     print(f"star1: {star1(input, distances, 1000)}")
+    print(f"star2: {star2(input, distances)}")
 
 
 if __name__ == "__main__":
